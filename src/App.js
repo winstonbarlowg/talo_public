@@ -22,7 +22,7 @@ const App = () => {
       refinanceFixedPeriod: 5,
     },
   ]);
-
+// nevermind
   const [mortgageData, setMortgageData] = useState([]);
   const [summaryData, setSummaryData] = useState(null);
 
