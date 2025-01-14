@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import MortgageInputs from './components/MortgageInputs';
-import RefinanceScenarios from './components/RefinanceScenarios';
 import PaymentChart from './components/PaymentChart';
 import BalanceChart from './components/BalanceChart';
 import RefinanceScenarioEditor from './components/RefinanceScenarioEditor';
@@ -52,20 +51,10 @@ const App = () => {
     ]);
   };
 
-  const updateRefinanceScenario = (id, field, value) => {
-    setRefinanceScenarios((prevScenarios) =>
-      prevScenarios.map((scenario) =>
-        scenario.id === id ? { ...scenario, [field]: value } : scenario
-      )
-    );
-  };
   useEffect(() => {
     console.log('Refinance Scenarios:', refinanceScenarios);
   }, [refinanceScenarios]);
 
-  const removeRefinanceScenario = (id) => {
-    setRefinanceScenarios(refinanceScenarios.filter((scenario) => scenario.id !== id));
-  };
 
   const calculateMonthlyPayment = (principal, annualRate, years) => {
     const monthlyRate = (annualRate / 100) / 12;
@@ -224,14 +213,14 @@ const App = () => {
         handleNumberInput={handleNumberInput}
         handleInterestRateInput={handleInterestRateInput}
       />
-      <RefinanceScenarios
-        refinanceScenarios={refinanceScenarios}
+      {/* <RefinanceScenarios
+        // refinanceScenarios={refinanceScenarios}
         addRefinanceScenario={addRefinanceScenario}
         updateRefinanceScenario={updateRefinanceScenario}
         removeRefinanceScenario={removeRefinanceScenario}
         handleNumberInput={handleNumberInput}
         handleInterestRateInput={handleInterestRateInput}
-      />
+      /> */}
 {/* Summary section */}
 {summaryData && (
   <div className="bg-white p-8 rounded-lg shadow mb-8">
@@ -267,7 +256,18 @@ const App = () => {
         </div>
       </div>
     </div>
-    
+        
+    {/* Refinancing Scenarios Title and Button inside the Summary Section */}
+    <div className="flex justify-between items-center mb-8">
+      <h3 className="text-lg font-semibold mb-4">Refinancing Scenarios</h3>
+      <button
+        onClick={addRefinanceScenario}
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Add Refinancing Scenario
+      </button>
+    </div>
+
     {/* Refinancing Scenarios Summary */}
     {refinanceScenarios.map((scenario, index) => (
       <div key={scenario.id}>
