@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/talo_public/static/css/main.c1b68545.css",
+    "main.js": "/talo_public/static/js/main.b7668413.js",
+    "static/js/488.1a3ecbc3.chunk.js": "/talo_public/static/js/488.1a3ecbc3.chunk.js",
+    "index.html": "/talo_public/index.html",
+    "main.c1b68545.css.map": "/talo_public/static/css/main.c1b68545.css.map",
+    "main.b7668413.js.map": "/talo_public/static/js/main.b7668413.js.map",
+    "488.1a3ecbc3.chunk.js.map": "/talo_public/static/js/488.1a3ecbc3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c1b68545.css",
+    "static/js/main.b7668413.js"
+  ]
+}
