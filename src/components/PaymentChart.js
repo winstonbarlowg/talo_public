@@ -33,7 +33,31 @@ const PaymentChart = ({ data, refinanceScenarios }) => {
     },
     
     tooltip: {
-      y: { formatter: (val) => `£${val.toFixed(2)}` }
+      shared: true, // Enable shared tooltip for multiple series
+      y: {
+        formatter: (val) => `£${val.toFixed(2)}`
+      },
+      custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+        const interestPayment = series[0][dataPointIndex];
+        const principalPayment = series[1][dataPointIndex];
+        const totalPayment = interestPayment + principalPayment;
+    
+        return `
+          <div style="padding: 8px; font-size: 12px; border: 1px solid #ddd; background: white; border-radius: 5px;">
+            <div><strong>Month: ${w.globals.labels[dataPointIndex]}</strong></div>
+            <div style="display: flex; align-items: center; margin-top: 5px;">
+              <span style="width: 10px; height: 10px; background: ${w.globals.colors[0]}; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
+              Interest Payment: £${interestPayment.toFixed(2)}
+            </div>
+            <div style="display: flex; align-items: center; margin-top: 5px;">
+              <span style="width: 10px; height: 10px; background: ${w.globals.colors[1]}; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
+              Principal Payment: £${principalPayment.toFixed(2)}
+            </div>
+            <hr style="margin: 4px 0;" />
+            <div><strong>Total: £${totalPayment.toFixed(2)}</strong></div>
+          </div>
+        `;
+      }
     },
     annotations: {
       xaxis: refinanceScenarios.map((scenario, index) => {
