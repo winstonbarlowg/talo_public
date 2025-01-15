@@ -1,38 +1,92 @@
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
+import Chart from 'react-apexcharts';
 
-const PaymentChart = ({ data, refinanceScenarios }) => (
-  <div className="bg-white p-6 rounded-lg shadow">
-    <h2 className="text-xl font-bold mb-4">Monthly Payment Components</h2>
-    <div className="h-96">
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" label={{ value: 'Month', position: 'insideBottom', offset: -5 }} />
-          <YAxis label={{ value: 'Payment Amount (£)', angle: -90, position: 'insideLeft', offset: 10 }} />
-          <Tooltip formatter={(value, name) => [`£${value.toFixed(2)}`, name]} labelFormatter={(label) => `Month ${label}`} />
-          <Legend />
-          {refinanceScenarios.map((scenario, index) => {
-            const month = data.find((d) => d.scenarioIndex === index + 1)?.month;
-            return month ? (
-              <ReferenceLine
-                key={scenario.id}
-                x={month}
-                stroke="#888"
-                strokeDasharray="3 3"
-                label={{ value: `Refinance ${index + 1}`, position: 'top' }}
-              />
-            ) : null;
-          })}
-          <Line type="monotone" dataKey="interest" name="Interest Payment" stroke="#ef4444" strokeWidth={2} dot={false} />
-          <Line type="monotone" dataKey="principal" name="Principal Payment" stroke="#22c55e" strokeWidth={2} dot={false} />
-        </LineChart>
-      </ResponsiveContainer>
+const PaymentChart = ({ data, refinanceScenarios }) => {
+  const months = data.map((item) => item.month);
+  const interestPayments = data.map((item) => item.interest);
+  const principalPayments = data.map((item) => item.principal);
+
+  const options = {
+    chart: {
+      type: 'line',
+      zoom: { enabled: false },
+      toolbar: { show: false }
+    },
+    xaxis: {
+      categories: months,
+      title: { text: 'Month' },
+      labels: {
+        rotate: -45, // Rotate labels to prevent overlap
+        hideOverlappingLabels: true // Hide overlapping labels automatically
+      },
+      tickAmount: Math.min(12, months.length) // Show only 12 or fewer ticks
+    },
+    yaxis: {
+      title: { text: 'Payment Amount (£)' },
+      labels: {
+        formatter: (val) => `£${val.toFixed(2)}` // Format Y-axis to 2 decimal places
+      }
+    },
+    stroke: { 
+      curve: 'smooth',
+      width: 3,
+    },
+    
+    tooltip: {
+      y: { formatter: (val) => `£${val.toFixed(2)}` }
+    },
+    annotations: {
+      xaxis: refinanceScenarios.map((scenario, index) => {
+        const month = data.find((d) => d.scenarioIndex === index + 1)?.month;
+        return month
+          ? {
+              x: month,
+              borderColor: '#888',
+              label: {
+                text: `Refinance ${index + 1}`,
+                style: { fontSize: '12px' }
+              }
+            }
+          : null;
+      }).filter(Boolean)
+    },
+    responsive: [
+      {
+        breakpoint: 768, // For screens smaller than 768px
+        options: {
+          chart: {
+            height: 300 // Adjust chart height
+          },
+          xaxis: {
+            labels: { rotate: -30 } // Reduce label rotation for smaller screens
+          }
+        }
+      },
+      {
+        breakpoint: 480, // For very small screens
+        options: {
+          chart: {
+            height: 250
+          },
+          xaxis: {
+            labels: { rotate: 0 } // No rotation for very small screens
+          }
+        }
+      }
+    ]
+  };
+
+  const series = [
+    { name: 'Interest Payment', data: interestPayments },
+    { name: 'Principal Payment', data: principalPayments }
+  ];
+
+  return (
+    <div className="bg-white p-6 rounded-lg shadow">
+      <h2 className="text-xl font-bold mb-4">Monthly Payment Components</h2>
+      <Chart options={options} series={series} type="line" height={350} />
     </div>
-  </div>
-);
+  );
+};
 
 export default PaymentChart;
