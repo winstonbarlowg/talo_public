@@ -1,8 +1,5 @@
-// import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactNode } from 'react';
-
-// const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'Mortgage Calculator',
@@ -12,10 +9,6 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        {/* This tells the browser: resolve all relative URLs from /talo_public/ */}
-        <base href="/talo_public/" />
-      </head>
       <body>{children}</body>
     </html>
   );
