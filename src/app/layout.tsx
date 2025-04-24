@@ -14,12 +14,14 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
-      </body>
+      <head>
+        {/* This tells the browser: resolve all relative URLs from /talo_public/ */}
+        <base href="/talo_public/" />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }
