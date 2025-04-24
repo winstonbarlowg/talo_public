@@ -2,9 +2,8 @@
 const nextConfig = {
   // produce a static “out” folder
   output: 'export',
-  // if your repo is served at https://<user>.github.io/<repo>/, uncomment and set:
-  // basePath: '/<repo>',
-  // assetPrefix: '/<repo>/',
+  basePath: '/talo_public',
+  assetPrefix: '/talo_public/',
 };
 
 export default nextConfig;

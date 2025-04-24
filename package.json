@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://winstonbarlowg.github.io/talo_public",
-  "scripts": {
-    "build": "next build",
-    "export": "next export",
-    "predeploy": "npm run build && npm run export",
-    "deploy": "gh-pages -d out"
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d out",
+  "lint": "next lint"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.11",
